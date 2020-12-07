@@ -13,6 +13,12 @@
             <mat-error *ngIf="nameField.touched && nameField.hasError('required')">
               Name is required
             </mat-error>
+            <mat-error *ngIf="nameField.touched && nameField.hasError('minlength')">
+              Name must have at least 4 characters
+            </mat-error>
+            <mat-error *ngIf="nameField.hasError('notAvailable')">
+              This name is already taken.
+            </mat-error>
           </mat-form-field>
         </div>
       </div>

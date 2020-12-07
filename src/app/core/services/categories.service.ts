@@ -26,6 +26,6 @@ export class CategoriesService {
   }
 
   checkCategoryName(name: string) {
-    return this.http.post(`${environment.url_api}/categories/availability`, name);
+    return this.http.post(`${environment.url_api}/categories/availability`, {name});
   }
 }

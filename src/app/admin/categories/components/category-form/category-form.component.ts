@@ -1,22 +1,25 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { finalize, take, tap } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+import { finalize, take, takeUntil, tap } from 'rxjs/operators';
 import { Category } from 'src/app/core/models/category.model';
 import { CategoriesService } from 'src/app/core/services/categories.service';
+import { MyValidators } from 'src/app/utils/validators';
 import { v4 as uuidv4 } from 'uuid';
 @Component({
   selector: 'app-category-form',
   templateUrl: './category-form.component.html',
   styleUrls: ['./category-form.component.scss']
 })
-export class CategoryFormComponent implements OnInit {
+export class CategoryFormComponent implements OnInit, OnDestroy {
 
   form: FormGroup;
   showProgressBar: boolean;
 
   private progress: number;
+  private $destroy = new Subject<void>();
   constructor(
     private formBuilder: FormBuilder,
     private categoriesService: CategoriesService,
@@ -29,9 +32,14 @@ export class CategoryFormComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  ngOnDestroy() {
+    this.$destroy.next();
+    this.$destroy.complete();
+  }
+
   private buildForm() {
     this.form = this.formBuilder.group({
-      name: ['', Validators.required],
+      name: ['', [Validators.required, Validators.minLength(4)], MyValidators.validateCategory(this.categoriesService)],
       image: ['', Validators.required],
     });
   }
@@ -57,7 +65,7 @@ export class CategoryFormComponent implements OnInit {
       const ref = this.storage.ref(name);
       const task = this.storage.upload(name, image);
 
-      task.percentageChanges().pipe(take(1)).subscribe(value => {
+      task.percentageChanges().pipe(takeUntil(this.$destroy)).subscribe(value => {
         this.progress = value;
         if (value === 100) {
           setTimeout(() => {
