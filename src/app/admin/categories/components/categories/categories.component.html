@@ -1,1 +1,23 @@
 <a routerLink="create">Crear categoría</a>
+
+<div class="container">
+  <mat-grid-list cols="4" rowHeight="300px">
+    <mat-grid-tile *ngFor="let category of categories$ | async">
+      <mat-card class="categories-card">
+        <mat-card-header class="categories-card-header">
+          <mat-card-title>
+            {{category.name}}
+          </mat-card-title>
+        </mat-card-header>
+        
+        <mat-card-content class="categories-card-content">
+          <img mat-card-image class="category__card__image" [src]="category.image" alt="category_image">
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-raised-button>Edit</button>
+          <button mat-raised-button color="warn">Delete</button>
+        </mat-card-actions>
+      </mat-card>
+    </mat-grid-tile>
+  </mat-grid-list>
+</div>

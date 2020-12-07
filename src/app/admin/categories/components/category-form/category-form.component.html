@@ -1,36 +1,37 @@
-<form [formGroup]="form">
+<form [formGroup]="form" (ngSubmit)="save()">
   <mat-card>
     <mat-card-header>
-      <mat-card-title>Categoría</mat-card-title>
+      <mat-card-title>Category</mat-card-title>
     </mat-card-header>
 
     <mat-card-content>
       <div class="row">
         <div class="col-xs">
           <mat-form-field>
-            <mat-label>Nombre</mat-label>
-            <input placeholder="Nombre" formControlName="name" matInput type="text">
+            <mat-label>Name</mat-label>
+            <input placeholder="Name" formControlName="name" matInput type="text">
             <mat-error *ngIf="nameField.touched && nameField.hasError('required')">
-              Nombre es requerido
+              Name is required
             </mat-error>
           </mat-form-field>
         </div>
       </div>
       <div class="row">
         <div class="col-xs">
-          <mat-form-field>
-            <mat-label>Image</mat-label>
-            <input placeholder="Image" formControlName="image" matInput type="text">
-            <mat-error *ngIf="imageField.touched && imageField.hasError('required')">
-              Image es requerido
-            </mat-error>
-          </mat-form-field>
+          <button type="button" (click)="fileInput.click()" mat-mini-fab color="primary"><mat-icon>insert_photo</mat-icon></button>
+          <input #fileInput (change)="uploadFile($event)" placeholder="Image" type="file" style="display: none;">
+          <mat-progress-bar class="category__form__progress-bar" *ngIf="showProgressBar" mode="determinate" [value]="progressValue"></mat-progress-bar>
+          <br/>
+          <img *ngIf="imageField.value" [src]="imageField.value" alt="image to upload">
+          <mat-error *ngIf="imageField.touched && imageField.hasError('required')">
+            Image is required
+          </mat-error>
         </div>
       </div>
     </mat-card-content>
 
     <mat-card-actions>
-      <button mat-raised-button type="submit">Guardar categoría</button>
+      <button mat-raised-button type="submit" [disabled]="!imageField.value">Save category</button>
     </mat-card-actions>
   </mat-card>
 </form>
