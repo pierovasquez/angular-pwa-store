@@ -17,6 +17,9 @@
           <mat-form-field>
             <mat-label>Password</mat-label>
             <input placeholder="password" formControlName="password" matInput type="password">
+            <mat-error *ngIf="passwordField.touched && passwordField.hasError('invalid_password')">
+              Contraseña invalida, debe tener al menos un numero.
+            </mat-error>
           </mat-form-field>
         </div>
       </div>
