@@ -27,7 +27,32 @@
         <div class="col-xs">
           <mat-form-field>
             <mat-label>Confirm Password</mat-label>
-            <input placeholder="password" formControlName="password" matInput type="password">
+            <input placeholder="password" formControlName="confirmPassword" matInput type="password">
+            <mat-error *ngIf="confirmPasswordField.touched && form.hasError('match_password')">
+              Contraseña invalida, debe tener al menos un numero.
+            </mat-error>
+          </mat-form-field>
+              <mat-error *ngIf="confirmPasswordField.touched && form.hasError('match_password')">
+                Las contraseñas deben coincidir
+              </mat-error>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs">
+          <mat-radio-group formControlName="type" aria-label="Select an option">
+            <mat-radio-button value="company">Company</mat-radio-button>
+            <mat-radio-button value="customer">Customer</mat-radio-button>
+          </mat-radio-group>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs">
+          <mat-form-field>
+            <mat-label>Company Name</mat-label>
+            <input placeholder="company" formControlName="companyName" matInput type="text">
+            <mat-error *ngIf="companyNameField.touched && companyNameField.hasError('required')">
+              Company Name is required
+            </mat-error>
           </mat-form-field>
         </div>
       </div>
