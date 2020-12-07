@@ -24,4 +24,8 @@ export class CategoriesService {
   updateCategory(id: string, data: Partial<Category>): Observable<Category> {
     return this.http.put<Category>(`${environment.url_api}/categories/${id}`, data);
   }
+
+  checkCategoryName(name: string) {
+    return this.http.post(`${environment.url_api}/categories/availability`, name);
+  }
 }
