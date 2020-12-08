@@ -1,8 +1,8 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import { Subject } from 'rxjs';
+import { ActivatedRoute, Params, Router } from '@angular/router';
+import { Observable, Subject } from 'rxjs';
 import { finalize, take, takeUntil, tap } from 'rxjs/operators';
 import { Category } from 'src/app/core/models/category.model';
 import { CategoriesService } from 'src/app/core/services/categories.service';
@@ -15,22 +15,31 @@ import { v4 as uuidv4 } from 'uuid';
 })
 export class CategoryFormComponent implements OnInit, OnDestroy {
 
+  @Input()
+  set category(data: Category) {
+    if (data) {
+      this.isNew = false;
+      this.form.patchValue(data);
+    }
+  }
+  @Output() create: EventEmitter<Category> = new EventEmitter<Category>();
+  @Output() update: EventEmitter<Category> = new EventEmitter<Category>();
+
   form: FormGroup;
   showProgressBar: boolean;
+  isNew = true;
 
   private progress: number;
   private $destroy = new Subject<void>();
   constructor(
     private formBuilder: FormBuilder,
-    private categoriesService: CategoriesService,
-    private router: Router,
-    private storage: AngularFireStorage
+    private storage: AngularFireStorage,
+    private categoriesService: CategoriesService
   ) {
     this.buildForm();
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void { }
 
   ngOnDestroy() {
     this.$destroy.next();
@@ -44,14 +53,13 @@ export class CategoryFormComponent implements OnInit, OnDestroy {
     });
   }
 
-  private createCategory() {
-    const data: Partial<Category> = this.form.value;
-    this.categoriesService.createCategory(data).subscribe(category => this.router.navigate(['./admin/categories']));
-  }
-
   save() {
     if (this.form.valid) {
-      this.createCategory();
+      if (!this.isNew) {
+        this.update.emit(this.form.value);
+      } else {
+        this.create.emit(this.form.value);
+      }
     } else {
       this.form.markAllAsTouched();
     }

@@ -14,7 +14,7 @@
           <img mat-card-image class="category__card__image" [src]="category.image" alt="category_image">
         </mat-card-content>
         <mat-card-actions>
-          <button mat-raised-button>Edit</button>
+          <button mat-raised-button [routerLink]="['edit', category._id]">Edit</button>
           <button mat-raised-button color="warn">Delete</button>
         </mat-card-actions>
       </mat-card>

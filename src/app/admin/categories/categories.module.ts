@@ -7,10 +7,11 @@ import { MaterialModule } from './../../material/material.module';
 import { CategoriesRoutingModule } from './categories-routing.module';
 import { CategoriesComponent } from './components/categories/categories.component';
 import { CategoryFormComponent } from './components/category-form/category-form.component';
+import { CategoryContainerComponent } from './containers/category-container/category-container.component';
 
 
 @NgModule({
-  declarations: [CategoriesComponent, CategoryFormComponent],
+  declarations: [CategoriesComponent, CategoryFormComponent, CategoryContainerComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,
