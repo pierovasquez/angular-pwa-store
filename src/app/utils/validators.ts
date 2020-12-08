@@ -1,5 +1,6 @@
 import { AbstractControl } from '@angular/forms';
-import { map } from 'rxjs/operators';
+import { timer } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
 import { CategoriesService } from 'src/app/core/services/categories.service';
 export class MyValidators {
 
@@ -32,10 +33,14 @@ export class MyValidators {
   static validateCategory(service: CategoriesService) {
     return (control: AbstractControl) => {
       const value = control.value;
-      return service.checkCategoryName(value)
-        .pipe(
-          map((response: any) => response.isAvailable ? null : { notAvailable: true })
-        );
+      return timer(500).pipe(
+        switchMap(() => {
+          return service.checkCategoryName(value)
+            .pipe(
+              map((response: any) => response.isAvailable ? null : { notAvailable: true })
+            );
+        })
+      );
     };
   }
 
