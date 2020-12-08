@@ -13,6 +13,10 @@ export class CategoriesService {
     private http: HttpClient
   ) { }
 
+  getCategory(id: string): Observable<Category> {
+    return this.http.get<Category>(`${environment.url_api}/categories/${id}`);
+  }
+
   getAllCategories(): Observable<Category[]> {
     return this.http.get<Category[]>(`${environment.url_api}/categories`);
   }
@@ -26,6 +30,6 @@ export class CategoriesService {
   }
 
   checkCategoryName(name: string) {
-    return this.http.post(`${environment.url_api}/categories/availability`, {name});
+    return this.http.post(`${environment.url_api}/categories/availability`, { name });
   }
 }
