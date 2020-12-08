@@ -7,14 +7,9 @@
       <div class="row">
         <div class="col-xs">
           <mat-form-field>
-            <input placeholder="Id" formControlName="id" matInput type="text">
-          </mat-form-field>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-xs">
-          <mat-form-field>
-            <input placeholder="Title" formControlName="title" matInput type="text">
+            <input placeholder="Name" formControlName="name" matInput type="text">
+            <mat-error *ngIf="nameField.touched && nameField.hasError('required')">Name is required</mat-error>
+            <mat-error *ngIf="nameField.touched && nameField.hasError('minlength')">Name must have at least 4 characters</mat-error>
           </mat-form-field>
         </div>
       </div>
@@ -22,17 +17,17 @@
         <div class="col-xs">
           <mat-form-field>
             <input placeholder="Price" formControlName="price" matInput type="number">
+            <mat-error *ngIf="priceField.touched && priceField.hasError('price_invalid')">Price must not be higher than 10000</mat-error>
+            <mat-error *ngIf="priceField.touched && priceField.hasError('required')">Price is required</mat-error>
           </mat-form-field>
-          <div *ngIf="priceField.errors && priceField.dirty">
-            <p *ngIf="priceField.hasError('price_invalid')">no te debes pasar de 10000</p>
-            <p *ngIf="priceField.hasError('required')">el campo es requerido</p>
-          </div>
         </div>
       </div>
       <div class="row">
         <div class="col-xs">
           <mat-form-field>
             <textarea placeholder="Text" formControlName="description" matInput></textarea>
+            <mat-error *ngIf="descriptionField.touched && descriptionField.hasError('required')">Description is required</mat-error>
+            <mat-error *ngIf="descriptionField.touched && descriptionField.hasError('minlength')">Description must have at least 10 characters</mat-error>
           </mat-form-field>
         </div>
       </div>
@@ -40,6 +35,14 @@
         <div class="col-xs">
           <img *ngIf="(image$ | async) as image" [src]="image" alt="">
           <input type="file" (change)="uploadFile($event)">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs">
+          <mat-form-field>
+            <input placeholder="Category" formControlName="category_id" matInput type="text">
+            <mat-error *ngIf="priceField.touched && priceField.hasError('required')">Price is required</mat-error>
+          </mat-form-field>
         </div>
       </div>
     </mat-card-content>
