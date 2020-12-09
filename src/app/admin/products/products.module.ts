@@ -8,6 +8,8 @@ import { ProductsRoutingModule } from './products-routing.module';
 import { ProductsComponent } from './components/products/products.component';
 import { ProductCreateComponent } from './components/product-create/product-create.component';
 import { ProductEditComponent } from './components/product-edit/product-edit.component';
+import { ProductContainerCreateComponent } from './containers/product-container-create/product-container-create.component';
+import { ProductContainerEditComponent } from './containers/product-container-edit/product-container-edit.component';
 
 
 
@@ -15,7 +17,9 @@ import { ProductEditComponent } from './components/product-edit/product-edit.com
   declarations: [
     ProductsComponent,
     ProductCreateComponent,
-    ProductEditComponent
+    ProductEditComponent,
+    ProductContainerCreateComponent,
+    ProductContainerEditComponent
   ],
   imports: [
     CommonModule,
