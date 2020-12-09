@@ -1,13 +1,15 @@
 <form [formGroup]="form" (ngSubmit)="saveProduct($event)">
     <mat-card>
       <mat-card-header>
-        <mat-card-title>Producto</mat-card-title>
+        <mat-card-title>Product</mat-card-title>
       </mat-card-header>
       <mat-card-content>
         <div class="row">
           <div class="col-xs">
             <mat-form-field>
-              <input placeholder="Title" formControlName="title" matInput type="text">
+              <input placeholder="Name" formControlName="name" matInput type="text">
+              <mat-error *ngIf="nameField.touched && nameField.hasError('required')">Name is required</mat-error>
+              <mat-error *ngIf="nameField.touched && nameField.hasError('minlength')">Name must have at least 4 characters</mat-error>
             </mat-form-field>
           </div>
         </div>
@@ -16,22 +18,47 @@
             <mat-form-field>
               <input placeholder="Price" formControlName="price" matInput type="number">
             </mat-form-field>
-            <div *ngIf="priceField.errors && priceField.dirty">
-              <p *ngIf="priceField.hasError('price_invalid')">no te debes pasar de 10000</p>
-              <p *ngIf="priceField.hasError('required')">el campo es requerido</p>
-            </div>
+            <mat-error *ngIf="priceField.touched && priceField.hasError('price_invalid')">Price must not be higher than 10000</mat-error>
+            <mat-error *ngIf="priceField.touched && priceField.hasError('required')">Price is required</mat-error>
           </div>
         </div>
         <div class="row">
           <div class="col-xs">
             <mat-form-field>
-              <textarea placeholder="Text" formControlName="description" matInput></textarea>
+              <textarea placeholder="Description" formControlName="description" matInput></textarea>
+              <mat-error *ngIf="descriptionField.touched && descriptionField.hasError('required')">Description is required</mat-error>
+              <mat-error *ngIf="descriptionField.touched && descriptionField.hasError('minlength')">Description must have at least 10 characters</mat-error>
             </mat-form-field>
           </div>
         </div>
+        <div class="row">
+          <div class="col-xs">
+            <mat-progress-bar class="category__form__progress-bar" *ngIf="showProgressBar" mode="determinate" [value]="progressValue"></mat-progress-bar>
+            <img *ngIf="imageField.value" [src]="imageField.value" alt="image of the product">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs">
+            <button type="button" (click)="fileInput.click()" mat-mini-fab color="primary"><mat-icon>insert_photo</mat-icon></button>
+            <input #fileInput style="display: none;" type="file" (change)="uploadFile($event)">
+            <mat-error *ngIf="imageField.touched && imageField.hasError('required')">Image is required</mat-error>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs">
+            <mat-form-field>
+              <mat-label>Category</mat-label>
+              <mat-select name="category" formControlName="category_id">
+                <mat-option *ngFor="let category of categories" [value]="category._id">{{category.name}} </mat-option>
+              </mat-select>
+              <mat-error *ngIf="categoryField.touched && categoryField.hasError('required')">Category is required</mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+        <input style="display: none;" formControlName="_id" matInput>
       </mat-card-content>
       <mat-card-actions>
-        <button [disabled]="form.invalid" mat-raised-button type="submit">Guardar</button>
+        <button mat-raised-button type="submit">Save</button>
       </mat-card-actions>
     </mat-card>
     
