@@ -1,0 +1,5 @@
+<app-product-edit
+  [product]="product"
+  [categories]="categories$ | async"
+  (update)="updateProduct($event)">
+</app-product-edit>
