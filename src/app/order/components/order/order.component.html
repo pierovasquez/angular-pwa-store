@@ -1,8 +1,8 @@
 <mat-horizontal-stepper>
   <mat-step>
-    <ng-template matStepLabel>Sus productos</ng-template>
+    <ng-template matStepLabel>Your products</ng-template>
     <div *ngIf="(products$ | async) as products">
-        <p *ngIf="products.length === 0">no hay productos</p>
+        <p *ngIf="products.length === 0">There are no products</p>
         <div class="row" *ngFor="let product of products">
           <div class="col-xs-12 col-sm-2 col-md-2">
             <div class="box">
@@ -11,7 +11,7 @@
           </div>
           <div class="col-xs-12 col-sm-5 col-md-5">
             <div class="box">
-              {{ product.title }}
+              {{ product.name }}
             </div>
           </div>
           <div class="col-xs-12 col-sm-5 col-md-5">
@@ -24,12 +24,45 @@
     
   </mat-step>
   <mat-step>
-    <ng-template matStepLabel>Datos personales</ng-template>
-    <h1>contenifo</h1>
+    <ng-template matStepLabel>Personal data</ng-template>
+    <form [formGroup]="form" (ngSubmit)="save()">
+      <mat-card>
+        <mat-card-content>
+          <div class="row">
+            <div class="col-xs">
+              <mat-form-field>
+                <mat-label>Name</mat-label>
+                <input placeholder="Name" formControlName="name" matInput type="text">
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs">
+                <button mat-raised-button type="button" color="primary" (click)="addAddress()">Add address</button>
+                <div formArrayName="address" *ngFor="let address of addressField.controls;let i=index">
+                  <div [formArrayName]="i">
+                    <mat-form-field>
+                      <mat-label>ZipCode</mat-label>
+                      <input placeholder="Zip" formControlName="zip" matInput type="text">
+                    </mat-form-field>
+                    <mat-form-field>
+                      <mat-label>Text</mat-label>
+                      <input placeholder="Text" formControlName="text" matInput type="text">
+                    </mat-form-field>
+                  </div>
+                </div>
+            </div>
+          </div>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-raised-button color="primary" type="submit">Next</button>
+        </mat-card-actions>
+      </mat-card>
+    </form>
   </mat-step>
   <mat-step>
-    <ng-template matStepLabel>Pago</ng-template>
-    <h1>contenifo</h1>
+    <ng-template matStepLabel>Payment</ng-template>
+    <h1>Contenido</h1>
   </mat-step>
 </mat-horizontal-stepper>
 
