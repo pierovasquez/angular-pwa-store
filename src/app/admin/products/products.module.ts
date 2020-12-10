@@ -10,6 +10,7 @@ import { ProductCreateComponent } from './components/product-create/product-crea
 import { ProductEditComponent } from './components/product-edit/product-edit.component';
 import { ProductContainerCreateComponent } from './containers/product-container-create/product-container-create.component';
 import { ProductContainerEditComponent } from './containers/product-container-edit/product-container-edit.component';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 
 
@@ -25,7 +26,8 @@ import { ProductContainerEditComponent } from './containers/product-container-ed
     CommonModule,
     ReactiveFormsModule,
     MaterialModule,
-    ProductsRoutingModule
+    ProductsRoutingModule,
+    SharedModule,
   ]
 })
 export class ProductsModule { }
