@@ -105,6 +105,7 @@ export class ProductCreateComponent implements OnInit, OnDestroy {
       price: ['', [Validators.required, MyValidators.isPriceValid]],
       image: ['', [Validators.required]],
       description: ['', [Validators.required, Validators.minLength(10)]],
+      stock: [4, Validators.required]
     });
   }
 
